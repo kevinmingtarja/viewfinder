@@ -1,0 +1,40 @@
+service: image-processing
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-plugin-include-dependencies
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: ap-southeast-1
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "s3:GetObject"
+          Resource: "arn:aws:s3:::commit-sandbox/*"
+        - Effect: "Allow"
+          Action:
+            - "s3:PutObject"
+          Resource: "arn:aws:s3:::commit-sandbox/*"
+
+package:
+  excludeDevDependencies: false
+
+functions:
+  resize:
+    handler: src/handlers/resizer/index.handler
+    events:
+      - http:
+          path: /{size}/{image}
+          method: get
+      - s3:
+          bucket: commit-sandbox
+          existing: true
+
+custom:
+  webpack:
+    includeModules:
+      packagePath: "./package.json" # relative path to custom package.json file.

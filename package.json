@@ -1,0 +1,27 @@
+{
+  "name": "viewfinder",
+  "version": "1.0.0",
+  "description": "[Coming Soon]",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:init": "rm -rf package-lock.json dist/ node_modules/",
+    "build:zip": "zip -rq image-handler.zip .",
+    "build:dist": "mkdir dist && mv image-handler.zip dist/",
+    "build": "npm run build:init && npm install --arch=x64 --platform=linux --production --target=12.13.1 && npm run build:zip && npm run build:dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevinmingtarja/viewfinder.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kevinmingtarja/viewfinder/issues"
+  },
+  "homepage": "https://github.com/kevinmingtarja/viewfinder#readme",
+  "dependencies": {
+    "aws-sdk": "^2.1004.0",
+    "sharp": "^0.29.1"
+  }
+}
